@@ -4,11 +4,21 @@
   "description": "Bot for the FGA Discord server",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "start": "cls && node build/index.js"
   },
   "author": "reconman",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^14.11.0"
+    "@discordjs/rest": "^1.7.1",
+    "@types/node": "^20.3.1",
+    "chalk": "^5.2.0",
+    "discord.js": "^14.11.0",
+    "dotenv": "^16.3.1",
+    "fix-esm": "^1.0.1",
+    "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.3"
   }
 }

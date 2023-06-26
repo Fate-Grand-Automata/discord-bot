@@ -1,8 +1,9 @@
-const { SlashCommandBuilder } = require('discord.js');
+import { SlashCommandBuilder } from "discord.js";
+import { SlashCommand } from "../types";
 
-module.exports = {
+const QuestionsCommand : SlashCommand = {
     cooldown: 300,
-	data: new SlashCommandBuilder()
+	command: new SlashCommandBuilder()
 		.setName('questions')
 		.setDescription('Refer users to #questions')
         .addUserOption((option) => option
@@ -10,10 +11,10 @@ module.exports = {
             .setDescription('The user to inform')
             .setRequired(true)
         ),
-	async execute(interaction) {
+	execute: interaction => {
         const target = interaction.options.getUser('user')
-        const channel = interaction.guild.channels.cache.find(channel => channel.name === "questions");
-		await interaction.reply(
+        const channel = interaction.guild?.channels.cache.find(channel => channel.name === "questions");
+		interaction.reply(
 `
 ${target} we'll need more information from you. Please create a post in ${channel} after checking if someone else already asked the same question.
 
@@ -22,3 +23,5 @@ If you have problems, first make sure that the app is updated and attach screens
         );
 	},
 };
+
+export default QuestionsCommand
