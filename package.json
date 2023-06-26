@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "cls && node build/index.js"
+    "start": "node build/index.js"
   },
   "author": "reconman",
   "license": "ISC",
