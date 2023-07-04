@@ -13,12 +13,13 @@ const QuestionsCommand : SlashCommand = {
         ),
 	execute: interaction => {
         const target = interaction.options.getUser('user')
-        const channel = interaction.guild?.channels.cache.find(channel => channel.name === "questions");
+        const questionsChannel = interaction.guild?.channels.cache.find(channel => channel.name === "questions")
+        const commonProblemsChannel = interaction.guild?.channels.cache.find(channel => channel.name === "common-problems")
 		interaction.reply(
 `
-${target} we'll need more information from you. Please create a post in ${channel} after checking if someone else already asked the same question.
+${target} please check ${commonProblemsChannel} and recently asked questions in ${questionsChannel}.
 
-If you have problems, first make sure that the app is updated and attach screenshots. If you have Android 12 or below you should record a video: More options -> Advanced -> Debug mode + Record Screen
+If you don't find your problem under them, create a post in ${questionsChannel} with a detailed explanation and screenshots. Alternatively, if you have Android 12 or below you should record a video: More options -> Advanced -> Debug mode + Record Screen
 `
         );
 	},
