@@ -12,33 +12,39 @@ module.exports = (client : Client) => {
     let slashCommandsDir = join(__dirname,"../slashCommands")
     let commandsDir = join(__dirname,"../commands")
 
-    if (existsSync(slashCommandsDir)) {
-        readdirSync(slashCommandsDir).forEach(async file => {
-            if (!file.endsWith(".js")) return;
-            let command : SlashCommand = (await import(`${slashCommandsDir}/${file}`)).default
-            slashCommands.push(command.command)
-            client.slashCommands.set(command.command.name, command)
-        })
+    const readSlashCommands = async () => {
+        if (existsSync(slashCommandsDir)) {
+            readdirSync(slashCommandsDir).forEach(async file => {
+                if (!file.endsWith(".js")) return;
+                let command : SlashCommand = (await import(`${slashCommandsDir}/${file}`)).default
+                slashCommands.push(command.command)
+                client.slashCommands.set(command.command.name, command)
+            })
+        }
     }
 
-    if (existsSync(commandsDir)) {
-        readdirSync(commandsDir).forEach(async file => {
-            if (!file.endsWith(".js")) return;
-            let command : Command = (await import(`${commandsDir}/${file}`)).default
-            commands.push(command)
-            client.commands.set(command.name, command)
-        })
+    const readCommands = async () => {
+        if (existsSync(commandsDir)) {
+            for (let file of readdirSync(commandsDir).values()) {
+                if (!file.endsWith(".js")) return;
+                let command : Command = (await import(`${commandsDir}/${file}`)).default
+                commands.push(command)
+                client.commands.set(command.name, command)
+            }
+        }
     }
 
     const rest = new REST({version: "10"}).setToken(process.env.TOKEN);
 
-    rest.put(Routes.applicationCommands(process.env.CLIENT_ID), {
-        body: slashCommands.map(command => command.toJSON())
-    })
-    .then((data : any) => {
-        console.log(color("text", `🔥 Successfully loaded ${color("variable", data.length)} slash command(s)`))
-        console.log(color("text", `🔥 Successfully loaded ${color("variable", commands.length)} command(s)`))
-    }).catch(e => {
-        console.log(e)
-    })
+    readSlashCommands()
+        .then(() => readCommands())
+        .then(() => rest.put(Routes.applicationCommands(process.env.CLIENT_ID), {
+            body: slashCommands.map(command => command.toJSON())
+        }))
+        .then((data : any) => {
+            console.log(color("text", `🔥 Successfully loaded ${color("variable", data.length)} slash command(s)`))
+            console.log(color("text", `🔥 Successfully loaded ${color("variable", commands.length)} command(s)`))
+        }).catch(e => {
+            console.log(e)
+        })
 }

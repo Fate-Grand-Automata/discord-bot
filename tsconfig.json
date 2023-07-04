@@ -10,7 +10,8 @@
       "forceConsistentCasingInFileNames": true,
       "strict": true,
       "useUnknownInCatchVariables": false,
-      "skipLibCheck": true
+      "skipLibCheck": true,
+      "sourceMap": true
     },
    "include":["./src/**/*"] 
   }

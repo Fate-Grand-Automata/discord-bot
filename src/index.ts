@@ -13,7 +13,8 @@ client.commands = new Collection<string, Command>()
 client.cooldowns = new Collection<string, number>()
 
 const handlersDir = join(__dirname, "./handlers")
-readdirSync(handlersDir).forEach(async handler => {
+readdirSync(handlersDir).forEach(handler => {
+    if (!handler.endsWith(".js")) return;
     import(`${handlersDir}/${handler}`).then(module => module.default(client));
 })
 
