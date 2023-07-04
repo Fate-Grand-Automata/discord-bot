@@ -1,15 +1,14 @@
 import { Client } from "discord.js";
-import { readdirSync } from "fs";
 import { join } from "path";
+import { globSync } from 'glob'
 import { color } from "../functions";
 import { BotEvent } from "../types";
 
 module.exports = (client: Client) => {
-    let eventsDir = join(__dirname, "../events")
+    let eventsFilePattern = join(__dirname, "../events/*.js").replace(/\\/g,'/')
 
-    readdirSync(eventsDir).forEach(async file => {
-        if (!file.endsWith(".js")) return;
-        let event: BotEvent = (await import(`${eventsDir}/${file}`)).default
+    globSync(eventsFilePattern).forEach(file => {
+        let event: BotEvent = require(`${file}`).default
         event.once ?
             client.once(event.name, (...args) => event.execute(...args))
             :

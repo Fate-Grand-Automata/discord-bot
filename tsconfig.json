@@ -1,9 +1,9 @@
 {
     "compilerOptions": {
-      "target": "es2020",
+      "target": "es2016",
       "module": "CommonJS",
       "rootDir": "./src",
-      "resolveJsonModule": true,
+       "resolveJsonModule": true,
       "outDir": "./build",
       "allowSyntheticDefaultImports": true,
       "esModuleInterop": true,
