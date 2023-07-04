@@ -13,8 +13,8 @@ client.commands = new Collection<string, Command>()
 client.cooldowns = new Collection<string, number>()
 
 const handlersDir = join(__dirname, "./handlers")
-readdirSync(handlersDir).forEach(handler => {
-    require(`${handlersDir}/${handler}`)(client)
+readdirSync(handlersDir).forEach(async handler => {
+    import(`${handlersDir}/${handler}`).then(module => module.default(client));
 })
 
 client.login(process.env.TOKEN)

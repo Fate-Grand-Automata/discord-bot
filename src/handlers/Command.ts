@@ -13,18 +13,18 @@ module.exports = (client : Client) => {
     let commandsDir = join(__dirname,"../commands")
 
     if (existsSync(slashCommandsDir)) {
-        readdirSync(slashCommandsDir).forEach(file => {
+        readdirSync(slashCommandsDir).forEach(async file => {
             if (!file.endsWith(".js")) return;
-            let command : SlashCommand = require(`${slashCommandsDir}/${file}`).default
+            let command : SlashCommand = (await import(`${slashCommandsDir}/${file}`)).default
             slashCommands.push(command.command)
             client.slashCommands.set(command.command.name, command)
         })
     }
 
     if (existsSync(commandsDir)) {
-        readdirSync(commandsDir).forEach(file => {
+        readdirSync(commandsDir).forEach(async file => {
             if (!file.endsWith(".js")) return;
-            let command : Command = require(`${commandsDir}/${file}`).default
+            let command : Command = (await import(`${commandsDir}/${file}`)).default
             commands.push(command)
             client.commands.set(command.name, command)
         })

@@ -7,9 +7,9 @@ import { BotEvent } from "../types";
 module.exports = (client: Client) => {
     let eventsDir = join(__dirname, "../events")
 
-    readdirSync(eventsDir).forEach(file => {
+    readdirSync(eventsDir).forEach(async file => {
         if (!file.endsWith(".js")) return;
-        let event: BotEvent = require(`${eventsDir}/${file}`).default
+        let event: BotEvent = (await import(`${eventsDir}/${file}`)).default
         event.once ?
             client.once(event.name, (...args) => event.execute(...args))
             :
