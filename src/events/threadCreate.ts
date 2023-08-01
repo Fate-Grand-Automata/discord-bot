@@ -18,6 +18,8 @@ ${startingMessage?.author} we'll need some information before we can help you:
 2. Are you using the Playstore or Github app version?
 3. What's your device model or emulator version?
 4. What's your Android version?
+5. Did you change any Fine-Tune settings? (Similarity, wait times, ...) If yes, what did you change?
+6. If the problems happens in FGO, post a screenshot of the affected game area. (Support selection, battle, lottery, ...)
 `)
             }
         }
