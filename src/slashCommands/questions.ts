@@ -19,7 +19,7 @@ const QuestionsCommand : SlashCommand = {
 `
 ${target} please check ${commonProblemsChannel} and recently asked questions and reported problems in ${questionsChannel}.
 
-If you don't find your problem under them, create a post in ${questionsChannel} with a detailed explanation and screenshots. Alternatively, if you have Android 12 or below you should record a video: More options -> Advanced -> Debug mode + Record Screen
+If you don't find your problem under them, create a post in ${questionsChannel}.
 `
         );
 	},
