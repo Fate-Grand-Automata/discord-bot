@@ -15,12 +15,7 @@ const event: BotEvent = {
             if (thread.appliedTags.includes(problemTag.id)) {
                 pRetry(
                     () => thread.fetchStarterMessage(),
-                    {
-                        onFailedAttempt: async error => {
-                            await delay(1000);
-                        },
-                        retries: 5
-                    }
+                    { retries: 5 }
                 ).then(() => thread.send(missingInfoMessage(userMention(thread.ownerId!!))))
             }
         }
