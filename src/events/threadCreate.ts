@@ -2,8 +2,10 @@ import { ChannelType, ThreadChannel, userMention } from "discord.js";
 import { BotEvent } from "../types";
 import { ForumChannel } from "discord.js";
 import { missingInfoMessage } from "../functions";
+import pRetry from "p-retry";
+import delay from "delay";
 
-const event : BotEvent = {
+const event: BotEvent = {
     name: "threadCreate",
     execute: async (thread: ThreadChannel) => {
         const channel = thread.parent
@@ -11,7 +13,15 @@ const event : BotEvent = {
             const forumChannel = channel as ForumChannel
             const problemTag = forumChannel.availableTags.filter(tag => tag.name == "Problem")[0]
             if (thread.appliedTags.includes(problemTag.id)) {
-                thread.send(missingInfoMessage(userMention(thread.ownerId!!)))
+                pRetry(
+                    () => thread.fetchStarterMessage(),
+                    {
+                        onFailedAttempt: async error => {
+                            await delay(1000);
+                        },
+                        retries: 5
+                    }
+                ).then(() => thread.send(missingInfoMessage(userMention(thread.ownerId!!))))
             }
         }
     }

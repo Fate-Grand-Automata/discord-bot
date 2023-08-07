@@ -1,4 +1,5 @@
 import chalk from "chalk"
+import delay from "delay"
 import { GuildMember, PermissionFlagsBits, PermissionResolvable, TextChannel } from "discord.js"
 
 type colorType = "text" | "variable" | "error"
@@ -29,7 +30,11 @@ export const checkPermissions = (member: GuildMember, permissions: Array<Permiss
 
 export const sendTimedMessage = (message: string, channel: TextChannel, duration: number) => {
     channel.send(message)
-        .then(m => setTimeout(async () => (await channel.messages.fetch(m)).delete(), duration))
+        .then(async m => {
+            await delay(duration)
+                .then(() => channel.messages.fetch(m))
+                .then(messageToDelete => messageToDelete.delete())
+        })
     return
 }
 
