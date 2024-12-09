@@ -3,7 +3,6 @@ import { BotEvent } from "../types";
 import { ForumChannel } from "discord.js";
 import { missingInfoMessage } from "../functions";
 import pRetry from "p-retry";
-import delay from "delay";
 
 const event: BotEvent = {
     name: "threadCreate",
