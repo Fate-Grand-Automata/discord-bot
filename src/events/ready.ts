@@ -3,7 +3,7 @@ import { BotEvent } from "../types";
 import { color } from "../functions";
 
 const event : BotEvent = {
-    name: "ready",
+    name: "clientReady",
     once: true,
     execute: (client : Client) => {
         console.log(
