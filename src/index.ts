@@ -1,12 +1,11 @@
 require("fix-esm").register();
 import { Client, GatewayIntentBits, Collection } from "discord.js";
-const { Guilds, MessageContent, GuildMessages, GuildMembers } = GatewayIntentBits
-const client = new Client({intents:[Guilds, GuildMembers, MessageContent, GuildMessages]})
+const { Guilds, GuildMessages } = GatewayIntentBits
+const client = new Client({intents:[Guilds, GuildMessages]})
 import { Command, SlashCommand } from "./types";
 import { config } from "dotenv";
 import { join } from "path";
 import { globSync } from "glob";
-import { KickUnverifiedMembersJob } from "./jobs/kickUnverified";
 config()
 
 client.slashCommands = new Collection<string, SlashCommand>()
@@ -19,5 +18,3 @@ globSync(handlersPattern).forEach(handler => {
 })
 
 client.login(process.env.TOKEN)
-
-new KickUnverifiedMembersJob(client);
